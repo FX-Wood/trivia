@@ -1,5 +1,7 @@
 var url = "https://opentdb.com/api.php?amount=4&type=multiple"
+var rainbow = ["gold", "papaywhip", "coral", "rebeccapurple"]
 var scoreboard = document.getElementById("scoreboard");
+var mainStyle = document.querySelector("main");
 var currentQuestion = 0;
 var score = [0 , 0] // [right answers, wrong answers]
 var questionBox = document.getElementById("question");
@@ -87,13 +89,14 @@ function fillQuestion() {
     //if the current question is as long as the triviaArr, then go to score page
     //if the current question is shorter then the TriviaArr, then continue to next question. 
     if (currentQuestion < triviaArr.length){
-        
+        mainStyle.style.backgroundColor= rainbow[currentQuestion];
         questionBox.textContent = fixString(triviaArr[currentQuestion].question)
         var currentAnswers = pickRandom()
         labels.forEach(function(label, index) {
             label.textContent = currentAnswers[index]
         })
     }  else if (currentQuestion >= triviaArr.length){
+        mainStyle.style.backgroundColor = "dodgerblue"
         triviaArr.forEach(function(question) {
 
         })
@@ -105,11 +108,13 @@ function fillQuestion() {
             debrief.textContent += answer.yourChoice
             debrief.textContent += answer.correctAnswer
             debrief.textContent += answer.question
-            if (answer.correctAnswer === answer.yourChoice) {
-                debrief.style.color = "green";
-            } else if (answer.correctAnswer === answer.yourChoice) {
-                debrief.style.color = "green";
-            }
+            // if (answer.correctAnswer === answer.yourChoice) {
+            //     debrief.style.color = "green";
+            // } else if (answer.correctAnswer === answer.yourChoice) {
+            //     debrief.style.color = "green";
+            // }
+            mainStyle.style.padding = ''
+            scoreboard.style.background = 'dodgerblue'
             scoreboard.appendChild(debrief)
         })
 
@@ -166,5 +171,5 @@ function checkAnswer () {
 }
 
 function fixString(string) {
-    return string.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&ouml;/, 'ö')
+    return string.replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&ouml;/, 'ö').replace(/&amp;/g, '&').replace(/&ntilde;/g, 'ñ')
 }
